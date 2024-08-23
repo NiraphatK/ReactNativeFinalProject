@@ -5,6 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 export type RootStackParamList = {
   Welcome: undefined;
   Register: undefined;
+  Login: undefined;
 };
 
 // Define a type for the navigation prop for each screen
@@ -15,4 +16,8 @@ export type WelcomeScreenNavigationProp = StackNavigationProp<
 export type RegisterScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "Register"
+>;
+export type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Login"
 >;

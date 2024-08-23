@@ -6,6 +6,7 @@ import { RootStackParamList } from "../types/types";
 
 import WelcomeScreen from "../screens/WelcomeScreen/WelcomeScreen";
 import RegisterScreen from "../screens/RegisterScreen/RegisterScreen";
+import LoginScreen from "../screens/LoginScreen/LoginScreen";
 
 // Create Stack Navigator
 const Stack = createStackNavigator<RootStackParamList>();
@@ -24,6 +25,12 @@ const Navigator: React.FC = (): React.JSX.Element => {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      {/* Login screen */}
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

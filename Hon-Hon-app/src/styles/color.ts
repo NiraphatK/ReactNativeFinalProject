@@ -6,6 +6,7 @@ const colors = {
   accent: "#EB5858", // Accent color
   background: "#F9FBFF", // Background color
   backgroundSecondary: "#9AAEF3", // Secondary Background color
+  backgroundComponent:"#E4E6ED", // Background Component color
   textPrimary: "#000000", // Primary text color
   textSecondary: "#9B999C", // Secondary text color
 };

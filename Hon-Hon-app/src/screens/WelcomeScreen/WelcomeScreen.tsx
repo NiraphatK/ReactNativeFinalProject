@@ -55,6 +55,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }): React.JSX.Element => {
           style={styles.buttonLogin}
           onPress={() => {
             /* Handle login press */
+            navigation.navigate("Login");
           }}
         >
           <Text style={[styles.buttonText, { color: colors.primary }]}>
@@ -71,6 +72,9 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }): React.JSX.Element => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.signInLogoWrapper}>
             <Ionicons name="logo-twitter" size={24} color={colors.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.signInLogoWrapper}>
+            <Ionicons name="logo-discord" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
 
