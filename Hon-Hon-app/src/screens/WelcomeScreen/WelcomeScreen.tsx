@@ -4,10 +4,17 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+import { WelcomeScreenNavigationProp } from "../../types/types";
+
 import styles from "./WelcomeScreenStyles";
 import colors from "../../styles/color";
 
-const WelcomeScreen = (): React.JSX.Element => {
+// Define props for WelcomeScreen
+type Props = {
+  navigation: WelcomeScreenNavigationProp;
+};
+
+const WelcomeScreen: React.FC<Props> = ({ navigation }): React.JSX.Element => {
   return (
     // LinearGradient component for a gradient background
     <LinearGradient
@@ -37,6 +44,7 @@ const WelcomeScreen = (): React.JSX.Element => {
           style={styles.buttonCreate}
           onPress={() => {
             /* Handle Create Account press */
+            navigation.navigate("Register");
           }}
         >
           <Text style={styles.buttonText}>Create Account</Text>
