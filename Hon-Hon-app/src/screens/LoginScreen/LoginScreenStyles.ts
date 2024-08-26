@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     position: "relative",
     padding: 40,
     paddingTop: 80,
-    // elevation: 5,
+    elevation: 5,
     // left:-205,
     // top:-250,
   },
@@ -53,23 +53,23 @@ const styles = StyleSheet.create({
   paddingVertical: {
     paddingVertical: 10,
   },
-  containerInput:{
-    position:"relative",
-    width:"100%",
-    marginTop:25,
+  containerInput: {
+    position: "relative",
+    width: "100%",
+    marginTop: 25,
   },
-  input:{
-    width:"100%",
-    paddingVertical:10,
-    paddingLeft:30,
-    paddingRight:20,
-    borderRadius:30,
-    backgroundColor:colors.backgroundComponent,
+  input: {
+    width: "100%",
+    paddingVertical: 10,
+    paddingLeft: 30,
+    paddingRight: 20,
+    borderRadius: 30,
+    backgroundColor: colors.backgroundComponent,
   },
-  inputIcon:{
-    position:'absolute',
-    top:14,
-    right:15,
+  inputIcon: {
+    position: "absolute",
+    top: 14,
+    right: 15,
   },
   signInLogoWrapper: {
     padding: 5,
@@ -81,23 +81,46 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 8,
   },
-  nextButton:{
-    marginTop:15,
-    backgroundColor:colors.base,
-    borderColor:colors.primary,
-    borderWidth:1,
-    borderRadius:20,
-    padding:15,
+  nextButton: {
+    marginTop: 25,
+    backgroundColor: colors.base,
+    borderColor: colors.primary,
+    borderWidth: 1,
+    borderRadius: 25,
+    padding: 15,
   },
-  marginTop:{
-    marginTop:15,
+  marginTop: {
+    marginTop: 15,
   },
-  scrollView:{
+  scrollView: {
     // flexGrow:1,
-    paddingTop:160,
-    paddingBottom:10,
-    justifyContent:"center",
+    paddingTop: 160,
+    paddingBottom: 10,
+    justifyContent: "center",
   },
-})
+  backButton: {
+    position: "absolute",
+    top: 45,
+    left: 15,
+    padding: 1,
+    zIndex: 1,
+  },
+  text: {
+    marginTop: 15,
+    color: colors.textSecondary,
+    fontWeight: "500",
+  },
+  containerLine:{
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  line: {
+    marginTop:15,
+    height: 1,
+    backgroundColor: colors.textSecondary,
+    marginHorizontal: 15,
+    width: 135,
+  },
+});
 
-export default styles
+export default styles;

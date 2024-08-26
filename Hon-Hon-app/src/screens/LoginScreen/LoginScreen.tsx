@@ -4,13 +4,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import colors from "../../styles/color";
 import styles from "./LoginScreenStyles";
@@ -21,7 +17,20 @@ type Props = {
   navigation: LoginScreenNavigationProp;
 };
 
-const LoginScreen: React.FC<Props> = (): React.JSX.Element => {
+const LoginScreen: React.FC<Props> = ({ navigation }): React.JSX.Element => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleLogin = () => {
+    // test
+    console.log("Username:", username);
+    console.log("Password:", password);
+  };
   return (
     // LinearGradient component for a gradient background
     <LinearGradient
@@ -36,6 +45,9 @@ const LoginScreen: React.FC<Props> = (): React.JSX.Element => {
       end={{ x: 1, y: 1 }} // Gradient end point (bottom-right corner)
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <TouchableOpacity style={styles.backButton} onPress={navigation.goBack}>
+          <Ionicons name="chevron-back" size={30} color={colors.background} />
+        </TouchableOpacity>
         <View style={styles.content}>
           <View style={styles.logoContainer}>
             <Image
@@ -46,13 +58,17 @@ const LoginScreen: React.FC<Props> = (): React.JSX.Element => {
           <Text style={[styles.subtitle, styles.marginTop]}>
             Welcome back !
           </Text>
+
+          {/* Input Username  */}
           <View style={styles.containerInput}>
             <TextInput
               style={styles.input}
               placeholder="Username"
               placeholderTextColor={colors.textSecondary}
+              value={username}
+              onChangeText={setUsername}
             />
-            <TouchableOpacity style={styles.inputIcon}>
+            <TouchableOpacity style={styles.inputIcon} disabled>
               <Ionicons
                 name="person-outline"
                 size={20}
@@ -60,25 +76,45 @@ const LoginScreen: React.FC<Props> = (): React.JSX.Element => {
               />
             </TouchableOpacity>
           </View>
+
+          {/* Input Password  */}
           <View style={[styles.containerInput]}>
             <TextInput
               style={styles.input}
               placeholder="Password"
               placeholderTextColor={colors.textSecondary}
-              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
             />
-            <TouchableOpacity style={styles.inputIcon}>
+            <TouchableOpacity
+              onPress={() => {
+                togglePasswordVisibility();
+              }}
+              style={styles.inputIcon}
+            >
               <Ionicons
-                name="eye-outline"
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
                 size={20}
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
           </View>
-          <Text style={[styles.marginTop, { color: colors.textSecondary }]}>
-            New User? <Text style={{ color: colors.primary }}>Sign Up</Text>
+
+          <Text style={styles.text}>
+            New User?{" "}
+            <Text
+              onPress={() => navigation.navigate("Register")}
+              style={[styles.text, { color: colors.primary }]}
+            >
+              Sign Up
+            </Text>
           </Text>
-          <Text style={[styles.marginTop, { color: colors.primary }]}>OR</Text>
+          <View style={styles.containerLine}>
+            <View style={styles.line}></View>
+            <Text style={[styles.text, { color: colors.primary }]}>OR</Text>
+            <View style={styles.line}></View>
+          </View>
           <View style={styles.signInLogoContainer}>
             <TouchableOpacity style={styles.signInLogoWrapper}>
               <Ionicons name="logo-facebook" size={24} color={colors.primary} />
@@ -93,10 +129,13 @@ const LoginScreen: React.FC<Props> = (): React.JSX.Element => {
               <Ionicons name="logo-discord" size={24} color={colors.primary} />
             </TouchableOpacity>
           </View>
-          <Text style={[styles.marginTop, { color: colors.textSecondary }]}>
-            Sign in with another account
-          </Text>
-          <TouchableOpacity style={[styles.nextButton, styles.marginTop]}>
+          <Text style={styles.text}>Sign in with another account</Text>
+          <TouchableOpacity
+            onPress={() => {
+              handleLogin();
+            }}
+            style={styles.nextButton}
+          >
             <Ionicons
               name="arrow-forward"
               size={50}

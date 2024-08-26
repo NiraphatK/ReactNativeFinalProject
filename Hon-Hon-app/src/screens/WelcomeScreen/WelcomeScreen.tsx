@@ -78,9 +78,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }): React.JSX.Element => {
           </TouchableOpacity>
         </View>
 
-        <Text style={{ color: colors.textSecondary }}>
-          Sign in with another account
-        </Text>
+        <Text style={styles.text}>Sign in with another account</Text>
       </View>
     </LinearGradient>
   );

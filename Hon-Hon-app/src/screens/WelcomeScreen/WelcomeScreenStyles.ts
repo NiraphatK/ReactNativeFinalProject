@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 8,
   },
+  text: {
+    color: colors.textSecondary,
+    fontWeight: "500",
+  },
 });
 
 export default styles;
