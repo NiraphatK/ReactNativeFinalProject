@@ -2,7 +2,7 @@
 # Hon Hon's Prototype
 This document presents the prototype developed by Hon Hon, showcasing the key features, design elements, and functionalities of the proposed project.
 
-## Document
+## Documentation
 * [Prototype.pdf](https://github.com/Lagedane/ReactNativeFinalProject/blob/main/Documents/Phase%202/Prototype.pdf)
 ## Interactive Prototype
 * <a href="https://shorturl.at/1QURp">
