@@ -5,5 +5,5 @@ This document presents the prototype developed by Hon Hon, showcasing the key fe
 ## Documentation
 * [Prototype.pdf](https://github.com/Lagedane/ReactNativeFinalProject/blob/main/Documents/Phase%202/Prototype.pdf)
 ## Interactive Prototype
-* <a href="https://shorturl.at/1QURp">
+* <a href="https://shorturl.at/BYV6d">
     <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Figma Badge"/>
