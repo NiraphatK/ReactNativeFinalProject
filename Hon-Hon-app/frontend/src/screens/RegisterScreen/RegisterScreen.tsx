@@ -11,13 +11,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import * as yup from "yup";
 
 import { RegisterScreenNavigationProp } from "../../types/types";
+import { validationSchema } from "../../components/validationSchema";
 
 import styles from "./RegisterScreenStyles";
 import colors from "../../styles/color";
 
 const RegisterScreen = (): React.JSX.Element => {
+  // stetes
   const navigation = useNavigation<RegisterScreenNavigationProp>();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -26,6 +29,10 @@ const RegisterScreen = (): React.JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const [usernameError, setusernameError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
 
   const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
     if (field === "password") {
@@ -36,21 +43,38 @@ const RegisterScreen = (): React.JSX.Element => {
   };
 
   const handleRegister = async () => {
-    // test
-    // console.log("Username:", username);
-    // console.log("Email:", email);
-    // console.log("Password:", password);
-    // console.log("Confirm Password:", confirmPassword);
-
     const userData = { username, email, password };
     try {
+      setusernameError("");
+      setEmailError("");
+      setPasswordError("");
+      setConfirmPassword("");
+      await validationSchema.validate(
+        { username, email, password, confirmPassword },
+        { abortEarly: false }
+      );
+
       const response = await axios.post(
         "http://10.0.2.2:5000/users/register",
         userData
       );
-      console.log("User registered:", response.data);
-    } catch (error) {
-      console.error("Registration error:", error);
+      // console.log("User registered:", response.data);
+      navigation.navigate("Login");
+    } catch (error: any) {
+      // console.error("Registration error:", error.message);
+      error.inner.forEach((err: yup.ValidationError) => {
+        if (err.path === "username") {
+          setusernameError(err.message);
+        } else if (err.path === "email") {
+          setEmailError(err.message);
+        } else if (err.path === "password") {
+          setPasswordError(err.message);
+        } else if (err.path === "confirmPassword") {
+          setConfirmPasswordError(err.message);
+        } else {
+          console.log("Unknow errror occurred.");
+        }
+      });
     }
   };
 
@@ -89,6 +113,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {usernameError ? (
+              <Text style={styles.errorTextInput}>{usernameError}</Text>
+            ) : null}
           </View>
 
           {/* Input Email */}
@@ -109,6 +136,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {emailError ? (
+              <Text style={styles.errorTextInput}>{emailError}</Text>
+            ) : null}
           </View>
 
           {/* Input Password */}
@@ -131,6 +161,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {passwordError ? (
+              <Text style={styles.errorTextInput}>{passwordError}</Text>
+            ) : null}
           </View>
 
           {/* Input Confirm Password */}
@@ -153,6 +186,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {confirmPasswordError ? (
+              <Text style={styles.errorTextInput}>{confirmPasswordError}</Text>
+            ) : null}
           </View>
 
           <View style={styles.containerLine}>

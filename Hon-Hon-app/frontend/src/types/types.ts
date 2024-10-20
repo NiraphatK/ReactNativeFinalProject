@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Welcome: undefined;
   Register: undefined;
   Login: undefined;
+  Home: undefined;
 };
 
 // Define a type for the navigation prop for each screen
@@ -20,4 +21,8 @@ export type RegisterScreenNavigationProp = StackNavigationProp<
 export type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "Login"
+>;
+export type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Home"
 >;

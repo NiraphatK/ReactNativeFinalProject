@@ -38,38 +38,10 @@ const styles = StyleSheet.create({
     fontSize: 28,
     paddingTop: 50,
   },
-  containerInput: {
-    position: "relative",
-    width: "100%",
-    marginTop: 20,
-  },
-  input: {
-    width: "100%",
-    paddingVertical: 10,
-    paddingLeft: 30,
-    paddingRight: 20,
-    borderRadius: 30,
-    backgroundColor: colors.backgroundComponent,
-  },
-  inputIcon: {
-    position: "absolute",
-    top: 14,
-    right: 15,
-  },
   text: {
     marginTop: 15,
     color: colors.textSecondary,
     fontWeight: "500",
-  },
-  signInLogoWrapper: {
-    padding: 5,
-    // borderWidth: 1,
-    // borderColor: colors.primary,
-    // borderRadius: 10,
-  },
-  signInLogoContainer: {
-    flexDirection: "row",
-    marginTop: 8,
   },
   nextButton: {
     marginTop: 25,
@@ -82,30 +54,6 @@ const styles = StyleSheet.create({
   marginHorizontal: {
     marginTop: 20,
     marginBottom: 5,
-  },
-  errorText: {
-    color: colors.accent,
-    fontSize: 12,
-    margin:0,
-    padding:0
-  },
-  errorTextInput: {
-    color: colors.accent,
-    fontSize: 12,
-    marginLeft:30,
-    marginTop:4,
-    padding:0
-  },
-  containerLine:{
-    flexDirection:'row',
-    alignItems:'center'
-  },
-  line: {
-    marginTop:15,
-    height: 1,
-    backgroundColor: colors.textSecondary,
-    marginHorizontal: 15,
-    width: 135,
   },
 });
 

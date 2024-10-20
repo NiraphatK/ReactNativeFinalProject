@@ -27,9 +27,7 @@ const LoginScreen = (): React.JSX.Element => {
   };
 
   const handleLogin = () => {
-    // test
-    console.log("Username:", username);
-    console.log("Password:", password);
+    navigation.navigate("Home");
   };
   return (
     // LinearGradient component for a gradient background
