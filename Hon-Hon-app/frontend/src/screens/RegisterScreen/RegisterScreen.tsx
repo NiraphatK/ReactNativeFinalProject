@@ -16,6 +16,7 @@ import { RegisterScreenNavigationProp } from "../../types/types";
 
 import styles from "./RegisterScreenStyles";
 import colors from "../../styles/color";
+import { createUser } from "../../../services/product-service";
 
 const RegisterScreen = (): React.JSX.Element => {
   const navigation = useNavigation<RegisterScreenNavigationProp>();
@@ -44,10 +45,7 @@ const RegisterScreen = (): React.JSX.Element => {
 
     const userData = { username, email, password };
     try {
-      const response = await axios.post(
-        "http://10.0.2.2:5000/users/register",
-        userData
-      );
+      const response = await createUser(userData)
       console.log("User registered:", response.data);
     } catch (error) {
       console.error("Registration error:", error);

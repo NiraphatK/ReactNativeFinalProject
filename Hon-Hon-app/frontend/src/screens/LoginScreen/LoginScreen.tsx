@@ -15,6 +15,7 @@ import { LoginScreenNavigationProp } from "../../types/types";
 
 import colors from "../../styles/color";
 import styles from "./LoginScreenStyles";
+import { checkUserPassword } from "../../../services/product-service";
 
 const LoginScreen = (): React.JSX.Element => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
@@ -26,10 +27,12 @@ const LoginScreen = (): React.JSX.Element => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // test
-    console.log("Username:", username);
-    console.log("Password:", password);
+    const res = await checkUserPassword(username,password)
+    if(res.status === 200 && res) {
+      navigation.navigate('Home')
+    }
   };
   return (
     // LinearGradient component for a gradient background

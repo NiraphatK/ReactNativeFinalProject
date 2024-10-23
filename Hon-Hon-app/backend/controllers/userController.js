@@ -3,6 +3,7 @@ const User = require("../models/Users");
 // ฟังก์ชันสร้างผู้ใช้ใหม่
 const createUser = async (req, res) => {
   const { username, email, password } = req.body;
+  const profile = []
 
   try {
     // ตรวจสอบว่าผู้ใช้อยู่แล้วหรือไม่
@@ -12,7 +13,7 @@ const createUser = async (req, res) => {
     }
 
     // สร้างผู้ใช้ใหม่
-    user = new User({ username, email, password });
+    user = new User({ username, email, password,profile:profile });
     await user.save();
 
     res.status(201).json(user);

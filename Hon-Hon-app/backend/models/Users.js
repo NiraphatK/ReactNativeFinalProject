@@ -15,10 +15,18 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profile:{
+    type:[String],
+    require:false,
+  },
   date: {
     type: Date,
     default: Date.now,
   },
+  alarm:{
+    time:{type:String},
+    alert:{type:Boolean}
+  }
 });
 
 module.exports = mongoose.model("User", UserSchema);
