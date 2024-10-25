@@ -6,14 +6,14 @@ import type { RootState } from "../store";
 interface AuthState {
   isLogin: boolean;
   isLoading: boolean;
-  // profile: any | null;
+  // username: string;
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
   isLogin: false,
   isLoading: false,
-  // profile: null,
+  // username: "",
 };
 
 export const authSlice = createSlice({
@@ -28,8 +28,8 @@ export const authSlice = createSlice({
     setIsLoading(state, action: PayloadAction<any | null>) {
       state.isLoading = action.payload; // update global state
     },
-    // setProfile(state, action: PayloadAction<any | null>) {
-    //   state.profile = action.payload; // update global state
+    // setUsername: (state, action: PayloadAction<string>) => {
+    //   state.username = action.payload;
     // },
   },
 });

@@ -5,28 +5,37 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+// import * as yup from "yup";
 
 import { RegisterScreenNavigationProp } from "../../types/types";
+import { validationSchema } from "../../components/validationSchema";
 
 import styles from "./RegisterScreenStyles";
 import colors from "../../styles/color";
 import { createUser } from "../../../services/product-service";
 
 const RegisterScreen = (): React.JSX.Element => {
+  // stetes
   const navigation = useNavigation<RegisterScreenNavigationProp>();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const [usernameError, setusernameError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
 
   const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
     if (field === "password") {
@@ -37,18 +46,13 @@ const RegisterScreen = (): React.JSX.Element => {
   };
 
   const handleRegister = async () => {
-    // test
-    // console.log("Username:", username);
-    // console.log("Email:", email);
-    // console.log("Password:", password);
-    // console.log("Confirm Password:", confirmPassword);
-
     const userData = { username, email, password };
     try {
-      const response = await createUser(userData)
-      console.log("User registered:", response.data);
-    } catch (error) {
-      console.error("Registration error:", error);
+      const response = await createUser(userData);
+    } catch (error: any) {
+      if (error.status === 400) {
+        setShowModal(true)
+      }
     }
   };
 
@@ -87,6 +91,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {usernameError ? (
+              <Text style={styles.errorTextInput}>{usernameError}</Text>
+            ) : null}
           </View>
 
           {/* Input Email */}
@@ -107,6 +114,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {emailError ? (
+              <Text style={styles.errorTextInput}>{emailError}</Text>
+            ) : null}
           </View>
 
           {/* Input Password */}
@@ -129,6 +139,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {passwordError ? (
+              <Text style={styles.errorTextInput}>{passwordError}</Text>
+            ) : null}
           </View>
 
           {/* Input Confirm Password */}
@@ -151,6 +164,9 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
+            {confirmPasswordError ? (
+              <Text style={styles.errorTextInput}>{confirmPasswordError}</Text>
+            ) : null}
           </View>
 
           <View style={styles.containerLine}>
@@ -195,6 +211,30 @@ const RegisterScreen = (): React.JSX.Element => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(!showModal)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.textHeader}>Warning!</Text>
+            <Text style={styles.textSub}>{`This email is already in use. 
+Please use another email`}</Text>
+            <TouchableOpacity
+              style={[styles.closeButton]}
+              onPress={() => {
+                setShowModal(!showModal)
+              }}
+            >
+              <Text style={styles.closeButtonText}>
+                OK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 };

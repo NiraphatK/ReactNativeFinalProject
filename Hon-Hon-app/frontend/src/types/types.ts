@@ -1,13 +1,22 @@
 // Import necessary components and libraries
 import { StackNavigationProp } from "@react-navigation/stack";
 
+interface Profile {
+  title: string;
+  category: string;
+  image: string;
+  duration: number;
+}
+
 // Define a type for your stack navigator
 export type RootStackParamList = {
   Welcome: undefined;
   Register: undefined;
   Login: undefined;
-  Home: undefined;
+  Home: { timeData: string } | undefined;
   createProfile: undefined;
+  Timer: { data: Profile,index: number };
+  Initial: undefined;
 };
 
 // Define a type for the navigation prop for each screen
@@ -30,4 +39,12 @@ export type HomeScreenNavigationProp = StackNavigationProp<
 export type createProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "createProfile"
+>;
+export type TimerScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Timer"
+>;
+export type InitialScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Initial"
 >;

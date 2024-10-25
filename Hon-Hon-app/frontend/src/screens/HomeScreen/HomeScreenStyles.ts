@@ -7,27 +7,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative'
-    // backgroundColor: colors.primary,
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   content: {
     width: "100%",
-    height: 550,
+    height: 600,
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     borderBottomLeftRadius: 80,
     borderBottomRightRadius: 80,
-    paddingBottom: 60,
+    paddingBottom: 10,
     alignItems: 'center',
     position: "relative",
     padding: 40,
     paddingTop: 30,
     elevation: 5,
-    overflow: 'hidden'
-    // left:-205,
-    // top:-250,
+    overflow:'hidden'
   },
   logoContainer: {
     width: '100%',
@@ -43,7 +38,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     // flexGrow:1,
-    paddingTop: 110,
+    paddingTop: 80,
     paddingBottom: 10,
     justifyContent: "center",
   },
@@ -62,7 +57,18 @@ const styles = StyleSheet.create({
     height: 65,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
+    borderRadius: 40
+  },
+  circleButtonDisable:{
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.backgroundComponent,
     borderRadius: 40
   },
   contentTitle: {
@@ -87,10 +93,9 @@ const styles = StyleSheet.create({
   ImgProfile:{
     width:80,
     height:80,
-    justifyContent:'center',
-    alignItems:'center',
     backgroundColor:colors.base,
     borderRadius:40,
+    overflow:'hidden'
   },
   textProfile:{
     color:colors.background,
@@ -100,12 +105,19 @@ const styles = StyleSheet.create({
   textPrimaryProfile:{
     color:colors.secondary,
     fontWeight:'bold',
-    fontSize:18
+    fontSize:16
   },
+  imageStyle: {
+    width: '100%', // หรือกำหนดตามที่ต้องการ
+    height: '100%',
+    resizeMode:'cover'
+  },
+  
   textSecondaryProfile:{
     color:colors.secondary,
     fontWeight:'bold',
-    fontSize:16
+    fontSize:14,
+    marginTop:3
   },
   rowCategory:{
     flexDirection:'row',
@@ -130,6 +142,140 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundComponent ,
     borderRadius:15,
     overflow:'hidden'
+  },
+  inputTitle:{
+    width:'100%',
+    height:50,
+    marginBottom:20,
+    paddingHorizontal:20,
+    backgroundColor:'#FFFFF0',
+    borderRadius:20,
+    fontSize:16
+  },
+  centerButton:{
+    width:'100%',
+    alignItems:'center',
+    justifyContent:'center',
+    marginBottom:30
+  },
+  buttonCreate:{
+    width:120,
+    height:50,
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:colors.secondary,
+    borderRadius:50,
+    marginTop:50
+  },
+  textButton:{
+    color:colors.background,
+    fontSize:18
+  },
+  selectImage:{
+    position:'relative',
+    width:120,
+    height:120,
+    alignItems:'center',
+    backgroundColor:'#f5f5e4',
+    borderRadius:100,
+    overflow:'hidden'
+  },
+  selectImgText:{
+    position:'absolute',
+    width:'100%',
+    height:30,
+    alignItems:'center',
+    bottom:0,
+    backgroundColor: 'rgba(155,153,156,0.6)'
+  },
+  textImag:{
+    marginTop:3,
+    fontSize:10,
+    fontWeight:'bold',
+    color:colors.background
+  },
+  ImgShow:{
+    width:'100%',
+    height:'100%'
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.secondary,
+    borderRadius: 20,
+    padding: 20,
+    paddingVertical: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  closeButton: {
+    width:180,
+    backgroundColor: colors.background,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent:'center',
+    marginBottom:10
+  },
+  closeButtonText: {
+    color: colors.primary,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  textHeader:{
+    fontSize:30,
+    fontWeight: "bold",
+    marginBottom:10,
+    color:colors.background
+  },
+  textSub:{
+    fontSize:15,
+    color:colors.background,
+    marginBottom:20
+  },
+  actionButton:{
+    width:110,
+    height:40,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:colors.secondary,
+    borderRadius:20,
+    marginTop:20,
+  },
+  slider: {
+    position:'absolute',
+    width: 250,
+    height: 70, // เพิ่มความสูงเพื่อรองรับปุ่ม Thumb
+    backgroundColor: 'transparent', // ป้องกันพื้นหลังทับซ้อน
+  },
+  track: {
+    height: 10, // ปรับความหนาของ track
+    borderRadius: 5, // ทำให้โค้งมน
+  },
+  thumb: {
+    width: 20, // ปรับขนาดปุ่ม thumb
+    height: 20,
+    backgroundColor: '#3E5AA9',
+    borderRadius: 10,
+  },
+  profileSetting:{
+    position:'absolute',
+    bottom:-50,
+    width:60,
+    height:60,
+    backgroundColor:'red',
+    zIndex:120
   }
 });
 

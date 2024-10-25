@@ -7,11 +7,11 @@ const createUser = async (req, res) => {
 
   try {
     // ตรวจสอบว่าผู้ใช้อยู่แล้วหรือไม่
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email:email });
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
     }
-
+    
     // สร้างผู้ใช้ใหม่
     user = new User({ username, email, password,profile:profile });
     await user.save();

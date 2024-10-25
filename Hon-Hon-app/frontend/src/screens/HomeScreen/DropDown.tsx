@@ -10,7 +10,11 @@ const data = [
   { label: 'Others', value: '4' },
 ];
 
-const DropdownComponent = () => {
+interface DropdownComponentProps {
+  onValueChange: (value: string | null) => void; // เพิ่ม props นี้
+}
+
+const DropdownComponent: React.FC<DropdownComponentProps> = ({ onValueChange }) => {
   const [value, setValue] = useState<string | null>(null);
   const [chkBox, setChkBox] = useState({
     Studying: false,
@@ -30,6 +34,7 @@ const DropdownComponent = () => {
 
   const handleChange = (item: { label: string; value: string }) => {
     setValue(item.value);
+    onValueChange(item.label);
 
     // อัปเดตสถานะ chkBox
     setChkBox(prevState => ({
@@ -65,7 +70,7 @@ export default DropdownComponent;
 const styles = StyleSheet.create({
   dropdown: {
     height: 50,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFF0',
     borderRadius: 12,
     padding: 12,
     shadowColor: '#000',
@@ -82,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor:'#FFFFF0'
   },
   textItem: {
     flex: 1,

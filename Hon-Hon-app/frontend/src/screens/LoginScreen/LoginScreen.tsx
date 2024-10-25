@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,12 +17,17 @@ import { LoginScreenNavigationProp } from "../../types/types";
 import colors from "../../styles/color";
 import styles from "./LoginScreenStyles";
 import { checkUserPassword } from "../../../services/product-service";
+import { useAppDispatch } from "../../redux-toolkit/hooks";
+import { setIsLogin } from "../../redux-toolkit/auth/auth-slice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = (): React.JSX.Element => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -29,9 +35,20 @@ const LoginScreen = (): React.JSX.Element => {
 
   const handleLogin = async () => {
     // test
-    const res = await checkUserPassword(username,password)
-    if(res.status === 200 && res) {
-      navigation.navigate('Home')
+
+    try {
+      const res = await checkUserPassword(username, password);
+      console.log(res);
+
+      if (res.status === 200 && res) {
+        await AsyncStorage.setItem("@Username", username);
+        dispatch(setIsLogin(true));
+        navigation.navigate("Home");
+      }
+    } catch (error: any) {
+      if (error.status === 404) {
+        setShowModal(true);
+      }
     }
   };
   return (
@@ -147,6 +164,29 @@ const LoginScreen = (): React.JSX.Element => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(!showModal)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.textHeader}>Invalid Credentials!</Text>
+            <Text
+              style={styles.textSub}
+            >{`Login failed. Please check your username and password and try again.`}</Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => {
+                setShowModal(!showModal);
+              }}
+            >
+              <Text style={styles.closeButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 };

@@ -9,6 +9,9 @@ import RegisterScreen from "../screens/RegisterScreen/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen/LoginScreen";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import CreateProfileScreen from "../screens/HomeScreen/CreateProfileScreen";
+import LoadingForReact from "../screens/HomeScreen/LoadingForReact";
+import TimerScreen from "../screens/HomeScreen/TimerScreen";
+import InitialScreen from "../screens/InitialScreen/InitialScreen";
 
 // Create Stack Navigator
 const Stack = createStackNavigator<RootStackParamList>();
@@ -16,7 +19,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 // Define Navigator component
 const Navigator = (): React.JSX.Element => {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="Initial">
       {/* Welcome screen */}
       <Stack.Screen
         name="Welcome"
@@ -43,6 +46,16 @@ const Navigator = (): React.JSX.Element => {
       <Stack.Screen
         name="createProfile"
         component={CreateProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Timer"
+        component={TimerScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Initial"
+        component={InitialScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

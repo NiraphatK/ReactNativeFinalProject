@@ -81,6 +81,51 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 8,
   },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.secondary,
+    borderRadius: 20,
+    padding: 20,
+    paddingVertical: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  closeButton: {
+    width:200,
+    backgroundColor: colors.background,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent:'center'
+  },
+  closeButtonText: {
+    color: colors.primary,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  textHeader:{
+    fontSize:30,
+    fontWeight: "bold",
+    marginBottom:10,
+    color:colors.background
+  },
+  textSub:{
+    fontSize:15,
+    color:colors.background
+  },
   nextButton: {
     marginTop: 25,
     backgroundColor: colors.base,

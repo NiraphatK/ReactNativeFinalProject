@@ -1,4 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
+
+const ProfileSchema = new mongoose.Schema({
+  title: { type: String },
+  category: { type: String },
+  image: { type: String },
+  duration:{type:Number}
+}, { _id: false }); // ไม่สร้าง _id ใน ProfileSchema
+
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -15,18 +23,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profile:{
-    type:[String],
-    require:false,
-  },
+  profile: [ProfileSchema],
   date: {
     type: Date,
     default: Date.now,
   },
-  alarm:{
-    time:{type:String},
-    alert:{type:Boolean}
-  }
 });
 
 module.exports = mongoose.model("User", UserSchema);
