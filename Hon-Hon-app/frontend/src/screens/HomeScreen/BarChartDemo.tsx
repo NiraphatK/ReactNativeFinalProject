@@ -33,6 +33,7 @@ const BarChartDemo = ({focusedPerType}:{focusedPerType:typeBook}): React.JSX.Ele
                 width={width - 100}
                 yAxisSuffix=' min'
                 height={180}
+                yAxisLabel=""
                 chartConfig={{
                     backgroundGradientFrom: '#E4E6ED',
                     backgroundGradientTo: '#E4E6ED',

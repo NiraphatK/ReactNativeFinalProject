@@ -53,7 +53,7 @@ const InitialScreen = () => {
       <Video
         source={require("../../assets/images/sl.mp4")}
         style={styles.video}
-        resizeMode="cover"
+        resizeMode={"cover" as any}
         isLooping={false}
         shouldPlay
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}

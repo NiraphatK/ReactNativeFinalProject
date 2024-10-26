@@ -34,6 +34,8 @@ const HomeScreen = (): React.JSX.Element => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedTypeBook, setSelectedTypeBook] = useState<string | null>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -80,7 +82,22 @@ const HomeScreen = (): React.JSX.Element => {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
+      setErrorMessage("");
+
+      // Validate title
+      if (!titleText) {
+        setErrorMessage("The title cannot be empty.");
+        setAlertModalVisible(true);
+        return;
+      }
       formData.append("title", titleText);
+
+      // Validate selected category
+      if (!selectedTypeBook) {
+        setErrorMessage("Please select a category.");
+        setAlertModalVisible(true);
+        return;
+      }
       formData.append("category", selectedTypeBook);
 
       if (selectedImage) {
@@ -115,10 +132,9 @@ const HomeScreen = (): React.JSX.Element => {
     }
   };
 
-  const onChangeModal = (modal:boolean) => {
-    setShowModal(modal)
-  }
-
+  const onChangeModal = (modal: boolean) => {
+    setShowModal(modal);
+  };
 
   return (
     <LinearGradient
@@ -141,12 +157,14 @@ const HomeScreen = (): React.JSX.Element => {
             <Ionicons name="chevron-back" size={40} color={colors.background} />
           </TouchableOpacity>
           <Text style={styles.title}>Hon Hon</Text>
-          <TouchableOpacity style={{ position: "absolute", right: 25 }} onPress={async () => setShowModal(true)}>
+          <TouchableOpacity
+            style={{ position: "absolute", right: 25 }}
+            onPress={async () => setShowModal(true)}
+          >
             <Ionicons
               name="person-circle-outline"
               size={45}
               color={colors.background}
-              
             />
             <ModalLogOutScreen
               showModal={showModal}
@@ -252,6 +270,26 @@ const HomeScreen = (): React.JSX.Element => {
               <Text style={styles.closeButtonText}>
                 Back to <Ionicons name="home-outline" size={20} />
               </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={alertModalVisible}
+        onRequestClose={() => setAlertModalVisible(!alertModalVisible)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.textHeader}>Warning!</Text>
+            <Text style={styles.textSub}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={[styles.closeButton]}
+              onPress={() => setAlertModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>

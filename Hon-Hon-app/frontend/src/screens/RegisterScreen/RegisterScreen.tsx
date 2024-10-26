@@ -11,47 +11,97 @@ import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-// import * as yup from "yup";
-
-import { RegisterScreenNavigationProp } from "../../types/types";
-import { validationSchema } from "../../components/validationSchema";
-
+import { createUser } from "../../../services/product-service";
+import * as yup from "yup";
 import styles from "./RegisterScreenStyles";
 import colors from "../../styles/color";
-import { createUser } from "../../../services/product-service";
+
+// Validation schema using Yup
+export const validationSchema = yup.object().shape({
+  username: yup.string().required("Field cannot be empty."),
+  email: yup
+    .string()
+    .required("Field cannot be empty.")
+    .email("The email format is invalid."),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters.")
+    .required("Field cannot be empty."),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match.")
+    .required("Field cannot be empty."),
+});
 
 const RegisterScreen = (): React.JSX.Element => {
-  // stetes
-  const navigation = useNavigation<RegisterScreenNavigationProp>();
+  // States
+  const navigation = useNavigation();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const [usernameError, setusernameError] = useState<string>("");
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
 
+  // Toggle visibility of password
   const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
     if (field === "password") {
-      setShowPassword((prev) => !prev);
+      setShowPassword(!showPassword);
     } else if (field === "confirmPassword") {
-      setShowConfirmPassword((prev) => !prev);
+      setShowConfirmPassword(!showConfirmPassword);
     }
   };
 
   const handleRegister = async () => {
-    const userData = { username, email, password };
+    setModalMessage("");
+
+    // Check if all fields are filled
+    if (!username || !email || !password || !confirmPassword) {
+      setModalMessage("Field cannot be empty.");
+      setShowModal(true);
+      return; // Exit early
+    }
+
+    // Validate formats using Yup schema
     try {
-      const response = await createUser(userData);
-    } catch (error: any) {
-      if (error.status === 400) {
-        setShowModal(true)
+      await validationSchema.validate(
+        {
+          username,
+          email,
+          password,
+          confirmPassword,
+        },
+        { abortEarly: false }
+      );
+
+      // Proceed with registration if validation passes
+      const userData = { username, email, password };
+
+      try {
+        await createUser(userData);
+        navigation.goBack();
+      } catch (error: any) {
+        if (error.response?.status === 400 || error.response?.status === 500) {
+          setModalMessage(
+            "This email or username is already in use."
+          );
+        } else {
+          setModalMessage(
+            "An unexpected error occurred. Please try again later."
+          );
+        }
+        setShowModal(true);
+      }
+    } catch (validationErrors) {
+      // Handle validation errors
+      if (validationErrors instanceof yup.ValidationError) {
+        // Extract and format error messages
+        const errorMessages = validationErrors.errors.join("\n"); // Join multiple error messages
+        setModalMessage(errorMessages);
+        setShowModal(true);
       }
     }
   };
@@ -91,9 +141,6 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
-            {usernameError ? (
-              <Text style={styles.errorTextInput}>{usernameError}</Text>
-            ) : null}
           </View>
 
           {/* Input Email */}
@@ -114,9 +161,6 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
-            {emailError ? (
-              <Text style={styles.errorTextInput}>{emailError}</Text>
-            ) : null}
           </View>
 
           {/* Input Password */}
@@ -139,9 +183,6 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
-            {passwordError ? (
-              <Text style={styles.errorTextInput}>{passwordError}</Text>
-            ) : null}
           </View>
 
           {/* Input Confirm Password */}
@@ -164,42 +205,7 @@ const RegisterScreen = (): React.JSX.Element => {
                 color={colors.textSecondary}
               />
             </TouchableOpacity>
-            {confirmPasswordError ? (
-              <Text style={styles.errorTextInput}>{confirmPasswordError}</Text>
-            ) : null}
           </View>
-
-          <View style={styles.containerLine}>
-            <View style={styles.line}></View>
-            <Text
-              style={[
-                styles.text,
-                styles.marginHorizontal,
-                { color: colors.primary },
-              ]}
-            >
-              OR
-            </Text>
-            <View style={styles.line}></View>
-          </View>
-
-          {/* Social Media Sign-In Options */}
-          <View style={styles.signInLogoContainer}>
-            <TouchableOpacity style={styles.signInLogoWrapper}>
-              <Ionicons name="logo-facebook" size={24} color={colors.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.signInLogoWrapper}>
-              <Ionicons name="logo-google" size={24} color={colors.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.signInLogoWrapper}>
-              <Ionicons name="logo-twitter" size={24} color={colors.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.signInLogoWrapper}>
-              <Ionicons name="logo-discord" size={24} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-
-          <Text style={styles.text}>Sign in with another account</Text>
 
           {/* Register Button */}
           <TouchableOpacity onPress={handleRegister} style={styles.nextButton}>
@@ -211,26 +217,23 @@ const RegisterScreen = (): React.JSX.Element => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Modal for Error Messages */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={showModal}
-        onRequestClose={() => setShowModal(!showModal)}
+        onRequestClose={() => setShowModal(false)} 
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <Text style={styles.textHeader}>Warning!</Text>
-            <Text style={styles.textSub}>{`This email is already in use. 
-Please use another email`}</Text>
+            <Text style={styles.textSub}>{modalMessage}</Text>
             <TouchableOpacity
-              style={[styles.closeButton]}
-              onPress={() => {
-                setShowModal(!showModal)
-              }}
+              style={styles.closeButton}
+              onPress={() => setShowModal(false)}
             >
-              <Text style={styles.closeButtonText}>
-                OK
-              </Text>
+              <Text style={styles.closeButtonText}>OK</Text>
             </TouchableOpacity>
           </View>
         </View>
