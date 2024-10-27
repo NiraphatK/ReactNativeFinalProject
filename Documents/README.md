@@ -17,6 +17,6 @@ This directory contains the key phases of Hon Hon's project, organized to stream
 ├─ Phase 2
 │  └─ Prototype.pdf
 └─ Phase 3
-   └─ Hon Hon Poster.pdf
+   ├─ Hon Hon Poster.pdf
    └─ Hon Hon Poster.png
 ```
