@@ -7,10 +7,12 @@ import { Provider } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { store } from "./src/redux-toolkit/store";
 import React from "react";
+import Toast from "react-native-toast-message";
 
 // Main app component
 export default function App() {
   return (
+    <>
     <Provider store={store}>
       <SafeAreaProvider>
         <NavigationContainer>
@@ -21,5 +23,7 @@ export default function App() {
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>
+    <Toast/>
+    </>
   );
 }

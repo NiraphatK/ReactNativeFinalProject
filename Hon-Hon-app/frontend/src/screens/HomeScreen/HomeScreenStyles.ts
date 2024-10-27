@@ -226,10 +226,26 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent:'center',
-    marginBottom:10
+    marginBottom:10,
   },
   closeButtonText: {
     color: colors.primary,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  confirmDeleteButton:{
+    width: 100,
+    marginHorizontal: 10,
+    backgroundColor: colors.accent,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  confirmDeleteButtonText: {
+    color: colors.background,
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -276,7 +292,16 @@ const styles = StyleSheet.create({
     height:60,
     backgroundColor:'red',
     zIndex:120
-  }
+  },
+  deleteProfileButtonContainer:{
+    flex: 1, 
+    zIndex: 1,
+  },
+  deleteProfileButton:{
+    position:'absolute',
+    right:3,
+    top:-40
+  },
 });
 
 export default styles;

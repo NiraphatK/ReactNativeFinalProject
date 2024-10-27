@@ -9,15 +9,22 @@ import {
   RefreshControl,
   Modal,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import styles from "./HomeScreenStyles";
 import colors from "../../styles/color";
 import { HomeScreenNavigationProp } from "../../types/types";
 import BarChartDemo from "./BarChartDemo";
-import { getProfile } from "../../../services/product-service";
+import {
+  deleteUserProfile,
+  getProfile,
+} from "../../../services/product-service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalLogOutScreen from "./ModalLogOutScreen";
 
@@ -36,7 +43,10 @@ const HomeScreen = (): React.JSX.Element => {
   const [profile, setProfile] = useState<Profile[]>([]); // เปลี่ยนเป็น array ว่าง
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [comfirmDeleteModal, setComfirmDeleteModal] = useState<boolean>(false);
+  // const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [totalFocused, setTotalFocused] = useState<number>(0);
+  const [indexDelete,setIndexDelete] = useState<number>(0)
   const [typeBook, setTypeBook] = useState({
     Studying: 0,
     Cartoon: 0,
@@ -44,7 +54,20 @@ const HomeScreen = (): React.JSX.Element => {
     Others: 0,
   });
 
-  const fetchProfile = async () => {
+  // const fetchProfile = async () => {
+  //   try {
+  //     setRefreshing(true);
+  //     const res = await getProfile();
+  //     if (res.status === 200) {
+  //       setProfile(res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setRefreshing(false);
+  //   }
+  // };
+  const fetchProfile = useCallback(async () => {
     try {
       setRefreshing(true);
       const res = await getProfile();
@@ -56,7 +79,7 @@ const HomeScreen = (): React.JSX.Element => {
     } finally {
       setRefreshing(false);
     }
-  };
+  }, [timeData]);
 
   const calculateTotalFocused = () => {
     // Reset typeBook before calculation
@@ -103,9 +126,16 @@ const HomeScreen = (): React.JSX.Element => {
     });
   };
 
+  const deleteProfile = async (index: number) => {
+    const res = await deleteUserProfile(index);
+    if (res.status === 200) {
+      await fetchProfile();
+    }
+  };
+
   useEffect(() => {
     fetchProfile();
-  }, [timeData]);
+  }, [fetchProfile]);
 
   useEffect(() => {
     if (profile.length > 0) {
@@ -113,10 +143,9 @@ const HomeScreen = (): React.JSX.Element => {
     }
   }, [profile]);
 
-  const onChangeModal = (modal:boolean) => {
-    setShowModal(modal)
-  }
-
+  const onChangeModal = (modal: boolean) => {
+    setShowModal(modal);
+  };
 
   const ProfileCard = ({ name, index }: { name: Profile; index: number }) => (
     <TouchableOpacity
@@ -149,6 +178,18 @@ const HomeScreen = (): React.JSX.Element => {
           </View>
         </View>
       </View>
+      {/* delete Profile Button */}
+      <View style={styles.deleteProfileButtonContainer}>
+        <TouchableOpacity
+          style={styles.deleteProfileButton}
+          onPress={() => {
+            setIndexDelete(index)
+            setComfirmDeleteModal(true);
+          }}
+        >
+          <Ionicons name="trash-bin" size={18} color="#8b8b8b" />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 
@@ -176,7 +217,10 @@ const HomeScreen = (): React.JSX.Element => {
               size={45}
               color={colors.background}
             />
-            <ModalLogOutScreen showModal={showModal} onChangeModal={onChangeModal} />
+            <ModalLogOutScreen
+              showModal={showModal}
+              onChangeModal={onChangeModal}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.content}>
@@ -256,6 +300,41 @@ const HomeScreen = (): React.JSX.Element => {
       ) : (
         <View></View>
       )}
+
+      {/* Modal for confirm delete profile */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={comfirmDeleteModal}
+        onRequestClose={() => setComfirmDeleteModal(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.textHeader}>Warning!</Text>
+            <Text style={styles.textSub}>
+              Are you sure you to delete this profile?
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={[styles.confirmDeleteButton,{backgroundColor:colors.background}]}
+                onPress={() => setComfirmDeleteModal(false)}
+              >
+                <Text style={styles.closeButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmDeleteButton}
+                onPress={async () => {
+                  setComfirmDeleteModal(false);
+                  // setConfirmDelete(true);
+                  await deleteProfile(indexDelete)
+                }}
+              >
+                <Text style={styles.confirmDeleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 };

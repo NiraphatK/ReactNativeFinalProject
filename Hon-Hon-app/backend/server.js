@@ -137,6 +137,30 @@ app.post('/update/duration', async (req, res) => {
   }
 });
 
+app.post('/delete/profile', async (req, res) => {
+  try {
+      const { userId, index } = req.body;
+
+      const userProfile = await Users.findOne({ username: userId });
+
+      if (!userProfile) {
+          return res.status(404).json({ message: 'Profile not found' });
+      }
+
+      if (index < 0 || index >= userProfile.profile.length) {
+          return res.status(400).json({ message: 'Invalid index' });
+      }
+
+      userProfile.profile.splice(index,1);
+
+      await userProfile.save();
+      res.status(200).json({ message: 'Delete profile successfully' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 app.listen(PORT, () => {

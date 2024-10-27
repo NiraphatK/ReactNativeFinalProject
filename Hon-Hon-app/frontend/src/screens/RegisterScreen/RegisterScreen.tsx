@@ -15,6 +15,7 @@ import { createUser } from "../../../services/product-service";
 import * as yup from "yup";
 import styles from "./RegisterScreenStyles";
 import colors from "../../styles/color";
+import Toast from "react-native-toast-message";
 
 // Validation schema using Yup
 export const validationSchema = yup.object().shape({
@@ -82,6 +83,11 @@ const RegisterScreen = (): React.JSX.Element => {
 
       try {
         await createUser(userData);
+        Toast.show({
+          type:"success",
+          text1:'Register Successfuly!!',
+          text2:'Let\'s Join with us'
+        })
         navigation.goBack();
       } catch (error: any) {
         if (error.response?.status === 400 || error.response?.status === 500) {

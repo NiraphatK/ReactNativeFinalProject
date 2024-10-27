@@ -45,6 +45,18 @@ export async function updateFocusTime(time: number,index:number): Promise<AxiosR
   }
 }
 
+export async function deleteUserProfile(index:number): Promise<AxiosResponse<any>> {
+  try {
+    const userId = await AsyncStorage.getItem('@Username');
+
+    const response = await http.post<any>('delete/profile', {userId,index});
+    return response;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+}
+
 export async function insertProfile(formData: any): Promise<AxiosResponse<any>> {
   try {
       const userId = await AsyncStorage.getItem('@Username');

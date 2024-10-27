@@ -20,6 +20,7 @@ import { checkUserPassword } from "../../../services/product-service";
 import { useAppDispatch } from "../../redux-toolkit/hooks";
 import { setIsLogin } from "../../redux-toolkit/auth/auth-slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 const LoginScreen = (): React.JSX.Element => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
@@ -44,6 +45,11 @@ const LoginScreen = (): React.JSX.Element => {
         await AsyncStorage.setItem("@Username", username);
         dispatch(setIsLogin(true));
         navigation.navigate("Home");
+        Toast.show({
+          type:"success",
+          text1:'Login Successfuly!!',
+          text2:'Let\'s Hon Hon'
+        })
       }
     } catch (error: any) {
       if (error.status === 404) {
@@ -150,6 +156,7 @@ const LoginScreen = (): React.JSX.Element => {
             </TouchableOpacity>
           </View>
           <Text style={styles.text}>Sign in with another account</Text>
+          {/* Login Button */}
           <TouchableOpacity
             onPress={() => {
               handleLogin();

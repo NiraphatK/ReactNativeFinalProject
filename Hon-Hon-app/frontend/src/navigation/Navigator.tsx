@@ -12,6 +12,7 @@ import CreateProfileScreen from "../screens/HomeScreen/CreateProfileScreen";
 import LoadingForReact from "../screens/HomeScreen/LoadingForReact";
 import TimerScreen from "../screens/HomeScreen/TimerScreen";
 import InitialScreen from "../screens/InitialScreen/InitialScreen";
+import Toast from "react-native-toast-message";
 
 // Create Stack Navigator
 const Stack = createStackNavigator<RootStackParamList>();
