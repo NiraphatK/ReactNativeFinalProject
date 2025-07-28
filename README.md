@@ -87,7 +87,7 @@ To connect to a MongoDB database, create a `.env` file in the `backend` director
 
 ```plaintext
 # MongoDB URI connection string
-MONGODB_URI=your_mongodb_connection_string
+MONGO_URI=your_mongodb_connection_string
 
 # Port for backend server
 PORT=5000
